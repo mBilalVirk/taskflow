@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('projects', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('team_id');
+            $table->uuid('created_by');
+            $table->string('name');
+            $table->string('slug');
+            $table->text('description')->nullable();
+            $table->string('color')->default('#3B82F6');
+            $table->string('visibility')->default('team');
+            $table->timestamps();
+            
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->unique(['team_id', 'slug']);
+            $table->index('team_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('projects');
+    }
+};
