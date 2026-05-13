@@ -47,7 +47,9 @@
     </style>
 </head>
 
-<body class="bg-gray-50">
+<body class="bg-slate-50" data-theme="light" data-success="{{ session('success') ?? '' }}"
+    data-error="{{ session('error') ?? '' }}" data-warning="{{ session('warning') ?? '' }}"
+    data-info="{{ session('info') ?? '' }}">
     <div class="flex h-screen">
         <!-- Sidebar -->
         <aside id="sidebar"
@@ -228,11 +230,11 @@
                     <h2 class="text-2xl font-bold text-gray-900">@yield('header', 'Dashboard')</h2>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <!-- Search -->
-                    <div class="hidden md:flex items-center bg-gray-100 rounded-lg px-4 py-2 w-64">
+                    <div
+                        class="hidden md:flex items-center bg-white border border-gray-300 hover:border-gray-400 focus-within:border-blue-500 rounded-2xl px-5 py-3 w-72 transition-all">
                         <i class="fas fa-search text-gray-400"></i>
                         <input type="text" placeholder="Search..."
-                            class="bg-transparent ml-2 w-full focus:outline-none text-sm">
+                            class="bg-transparent ml-3 w-full focus:outline-none text-gray-700 placeholder:text-gray-400 text-sm">
                     </div>
 
                     <!-- Notifications -->
@@ -302,7 +304,9 @@
             }
         });
     </script> --}}
+    @include('components.toast')
     @vite(['resources/js/utils/sidetoggle.js'])
+    @vite(['resources/js/app.js'])
 </body>
 
 </html>
