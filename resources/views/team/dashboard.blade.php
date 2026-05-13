@@ -13,7 +13,7 @@
                     </div>
                     @if (auth()->user()->isTeamAdmin($team))
                         <a href="{{ route('team.settings', $team) }}"
-                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                            class="flex-1 md:flex-none text-center px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
                             ⚙️ Settings
                         </a>
                     @endif

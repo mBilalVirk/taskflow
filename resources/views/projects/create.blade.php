@@ -1,0 +1,55 @@
+@extends('layouts.app')
+
+@section('title', 'Create New Project - ' . $team->name)
+
+@section('content')
+    <div class="max-w-2xl mx-auto mt-8">
+        <div class="bg-white shadow-md rounded-lg p-8">
+            <h1 class="text-3xl font-bold mb-2">Create New Project</h1>
+            <p class="text-gray-600 mb-8">Team: <strong>{{ $team->name }}</strong></p>
+
+            <form method="POST" action="{{ route('projects.store', $team) }}">
+                @csrf
+
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Project Name</label>
+                    <input type="text" name="name" value="{{ old('name') }}"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required>
+                    @error('name')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea name="description" rows="5"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('description') }}</textarea>
+                    @error('description')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-8">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Color</label>
+                    <div class="flex items-center gap-3">
+                        <input type="color" name="color" value="{{ old('color', '#3B82F6') }}"
+                            class="w-12 h-12 p-1 border border-gray-300 rounded-lg cursor-pointer">
+                        <span class="text-sm text-gray-500">Choose project accent color</span>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <a href="{{ route('projects.index', $team) }}"
+                        class="px-6 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition">
+                        Cancel
+                    </a>
+                    <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition">
+                        Create Project
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection

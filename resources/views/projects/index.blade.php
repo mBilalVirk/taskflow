@@ -3,14 +3,34 @@
 
 @section('content')
     <div class="min-h-screen bg-gray-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="flex justify-between items-center mb-8">
-                <h1 class="text-3xl font-bold">Projects</h1>
-                <a href="{{ route('projects.create', $team) }}"
-                    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                    + New Project
-                </a>
+        <!-- Header -->
+        <div class="bg-white shadow-sm border-b mb-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+
+                    <!-- Title and Breadcrumb-lite -->
+                    <div>
+                        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">
+                            Projects
+                        </h1>
+                        <p class="text-gray-500 max-w-2xl mt-1 leading-relaxed">
+                            Manage and track all projects for <strong>{{ $team->name }}</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Action Button -->
+                    <div class="flex items-center gap-3 w-full md:w-auto">
+                        <a href="{{ route('projects.create', $team) }}"
+                            class="flex-1 md:flex-none text-center px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
+                            <span class="mr-1">+</span> New Project
+                        </a>
+                    </div>
+
+                </div>
             </div>
+        </div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
 
             @if ($projects->isEmpty())
                 <div class="bg-white rounded-lg shadow p-12 text-center">
