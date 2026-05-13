@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class ProjectController extends Controller
 {
-      use AuthorizesRequests;
+    use AuthorizesRequests;
     // public function __construct()
     // {
     //     $this->middleware('auth');
@@ -22,7 +22,7 @@ class ProjectController extends Controller
         $this->authorize('view', $team);
 
         $projects = $team->projects()->paginate(12);
-        
+
         return view('projects.index', compact('team', 'projects'));
     }
 
@@ -69,6 +69,16 @@ class ProjectController extends Controller
             'color' => $validated['color'] ?? '#3B82F6',
             ...$validated,
         ]);
+
+        // 🔥 Send notification to all team members except the creator
+        $team->members()
+        ->where('users.id', '!=', auth()->id())
+        ->select('users.id')
+        ->lazy()
+        ->each(function ($user) use ($project) {
+            $user->notify(new \App\Notifications\ProjectCreated($project));
+        });
+        
 
         return redirect("/team/{$team->id}/projects/{$project->id}")->with('success', 'Project created!');
     }

@@ -45,4 +45,12 @@ class Project extends Model
 
         return $query->orderBy('order_in_status');
     }
+
+
+
+    // notification 
+    public function created_by_user()
+{
+    return $this->belongsTo(User::class, 'created_by');
+}
 }

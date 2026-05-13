@@ -67,4 +67,8 @@ class Team extends Model
             ->get()
             ->sum('tasks_count');
     }
+
+
+    
+    
 }

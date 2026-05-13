@@ -245,10 +245,63 @@
                     </div>
 
                     <!-- Notifications -->
-                    <button class="relative text-gray-600 hover:text-gray-900">
-                        <i class="fas fa-bell text-xl"></i>
-                        <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-                    </button>
+                    <!-- Notifications -->
+                    <div class="relative">
+
+                        <!-- Button -->
+                        <button id="notificationBtn"
+                            class="relative text-gray-600 hover:text-gray-900 p-2 rounded-xl hover:bg-gray-100 transition">
+
+                            <i class="fas fa-bell text-xl"></i>
+
+                            @if (auth()->user()->unreadNotifications()->count() > 0)
+                                <span id="notificationDot"
+                                    class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+                            @endif
+                        </button>
+
+                        <!-- Dropdown -->
+                        <div id="notificationDropdown"
+                            class="hidden absolute right-0 mt-3 w-80 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 overflow-hidden">
+
+                            <!-- Header -->
+                            <div class="px-4 py-3 border-b flex justify-between items-center bg-gray-50">
+                                <h3 class="font-semibold text-gray-800">Notifications</h3>
+                                <span class="text-xs text-indigo-600 font-bold">
+                                    {{ auth()->user()->unreadNotifications()->count() }} new
+                                </span>
+                            </div>
+
+                            <!-- Notifications List -->
+                            <div class="max-h-80 overflow-y-auto">
+
+                                @forelse(auth()->user()->unreadNotifications as $notification)
+                                    <div class="px-4 py-3 border-b hover:bg-gray-50 cursor-pointer">
+
+                                        <p class="text-sm text-gray-800">
+                                            {{ $notification->data['message'] ?? 'New notification' }}
+                                        </p>
+
+                                        <p class="text-xs text-gray-400 mt-1">
+                                            {{ $notification->created_at->diffForHumans() }}
+                                        </p>
+                                    </div>
+                                @empty
+                                    <div class="px-4 py-10 text-center text-gray-400">
+                                        No notifications
+                                    </div>
+                                @endforelse
+
+                            </div>
+
+                            <!-- Footer -->
+                            <div class="px-4 py-2 text-center bg-gray-50">
+                                <a href="#" class="text-xs text-indigo-600 font-semibold hover:underline">
+                                    View All
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- User Menu Mobile -->
                     <div class="md:hidden">
