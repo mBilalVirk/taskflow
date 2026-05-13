@@ -188,8 +188,15 @@
                     <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer"
                         onclick="document.getElementById('user-menu').classList.toggle('hidden')">
                         <div
-                            class="w-10 h-10 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
-                            {{ substr(auth()->user()->name, 0, 1) }}
+                            class="w-10 h-10 overflow-hidden bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center shadow-sm">
+                            @if (auth()->user()->avatar)
+                                <img src="{{ asset('storage/' . auth()->user()->avatar) }}"
+                                    alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
+                            @else
+                                <span class="text-white font-bold text-lg uppercase ">
+                                    {{ substr(auth()->user()->name, 0, 1) }}
+                                </span>
+                            @endif
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="font-semibold text-sm text-gray-900">{{ auth()->user()->name }}</p>
