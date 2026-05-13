@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header', auth()->user()->currentTeam()->name . ' - Dashboard')
-
+@section('title', 'Dashboard') {{-- You can customize this title as needed --}}
 @section('content')
     <div class="p-6 space-y-6">
         <!-- Welcome Section -->

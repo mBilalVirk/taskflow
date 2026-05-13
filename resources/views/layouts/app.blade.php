@@ -55,18 +55,19 @@
         <aside id="sidebar"
             class=" sidebar w-64 bg-white border-r border-gray-200 flex flex-col fixed md:static h-full z-50 md:translate-x-0 shadow-lg md:shadow-none">
             <!-- Logo -->
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-                        <span class="text-white font-bold text-lg">TF</span>
-                    </div>
-                    <div>
-                        <h1 class="font-bold text-lg text-gray-900">TaskFlow</h1>
-                        <p class="text-xs text-gray-500">Project Management</p>
+            <a href="{{ route('dashboard') }}" class="block">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">TF</span>
+                        </div>
+                        <div>
+                            <h1 class="font-bold text-lg text-gray-900">TaskFlow</h1>
+                            <p class="text-xs text-gray-500">Project Management</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            </a>
             <!-- Team Selector -->
             @auth
                 <div class="p-4 border-b border-gray-200">
