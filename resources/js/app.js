@@ -1,4 +1,6 @@
 import "./bootstrap";
+// import "./echo";
+import "./utils/kanban";
 // import "../css/app.css";
 
 // Handle Laravel Flash Messages

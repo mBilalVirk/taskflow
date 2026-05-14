@@ -3,9 +3,15 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskCommentController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Broadcast;
 
+
+// BROADCASTING AUTHENTICATION - ADD THIS FIRST!
+// Broadcast::routes(['middleware' => ['auth:sanctum']]);
 // Public routes
 Route::get('/', function () {
     return view('welcome');
@@ -66,4 +72,27 @@ Route::middleware('auth')->prefix('team/{team}/projects')->name('projects.')->gr
     Route::get('{project}/edit', [ProjectController::class, 'editForm'])->name('edit');
     Route::put('{project}', [ProjectController::class, 'update'])->name('update');
     Route::delete('{project}', [ProjectController::class, 'destroy'])->name('destroy');
+});
+
+// Task routes
+Route::middleware('auth')->prefix('team/{team}/projects/{project}/tasks')
+    ->name('tasks.')->group(function () {
+    
+    Route::get('/', [TaskController::class, 'index'])->name('index');
+    Route::get('/create', [TaskController::class, 'createForm'])->name('create');
+    Route::post('/', [TaskController::class, 'store'])->name('store');
+    Route::get('{task}', [TaskController::class, 'show'])->name('show');
+    Route::get('{task}/edit', [TaskController::class, 'editForm'])->name('edit');
+    Route::put('{task}', [TaskController::class, 'update'])->name('update');
+    Route::put('{task}/status', [TaskController::class, 'updateStatus'])->name('update-status');
+    Route::delete('{task}', [TaskController::class, 'destroy'])->name('destroy');
+    Route::get('{task}/modal', [TaskController::class, 'getModal'])->name('modal');
+});
+
+// Task comments routes
+Route::middleware('auth')->prefix('team/{team}/projects/{project}/tasks/{task}/comments')
+    ->name('comments.')->group(function () {
+    
+    Route::post('/', [TaskCommentController::class, 'store'])->name('store');
+    Route::delete('{comment}', [TaskCommentController::class, 'destroy'])->name('destroy');
 });

@@ -12,3 +12,9 @@
 1. User perform CRUD on team -> project.
 2. Toast added.
 3. Notifications.
+
+# 14/04/2026
+
+1. kanban board created.
+2. User can create task.
+3. Change the status.
