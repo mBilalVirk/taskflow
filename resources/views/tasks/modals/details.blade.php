@@ -108,10 +108,12 @@
     </div>
 
     <!-- Edit Button -->
-    <div class="border-t mt-6 pt-4">
-        <a href="{{ route('tasks.edit', [$team, $project, $task]) }}"
-            class="block text-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 font-semibold">
-            Edit Task
-        </a>
-    </div>
+    @if (auth()->id() === $task->creator_id || auth()->user()->isTeamAdmin($team))
+        <div class="border-t mt-6 pt-4">
+            <a href="{{ route('tasks.edit', [$team, $project, $task]) }}"
+                class="block text-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 font-semibold">
+                Edit Task
+            </a>
+    @endif
+</div>
 </div>

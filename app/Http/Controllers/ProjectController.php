@@ -34,10 +34,19 @@ class ProjectController extends Controller
         $this->authorize('view', $team);
         $this->authorize('view', $project);
 
-        $tasks = $project->tasks()->with('assignee', 'creator')->get();
-        $tasksByStatus = $tasks->groupBy('status');
+        $tasks = $project->tasks()->with('assignee', 'creator')->get()->groupBy('status');
+        $statuses = ['todo', 'in_progress', 'done'];
+        foreach ($statuses as $status) {
+            if (!isset($tasks[$status])) {
+                $tasks[$status] = collect();
+            }
+        }
 
-        return view('projects.show', compact('team', 'project', 'tasksByStatus'));
+        if (request()->expectsJSON) {
+            return response()->json($tasks);
+        }
+
+        return view('projects.show', compact('team', 'project', 'tasks'));
     }
 
     /**

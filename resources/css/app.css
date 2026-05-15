@@ -5,7 +5,37 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-@theme {
+/* @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+} */
+
+/* --- TO DO: RED --- */
+[data-status="todo"] .task-card {
+    border-color: #ef4444;
+    /* red-500 */
+    background-color: #d1d5db;
+    /* red-50 */
+}
+
+/* --- IN PROGRESS: BLUE --- */
+[data-status="in_progress"] .task-card {
+    border-color: #3b82f6;
+    /* blue-500 */
+    background-color: #93c5fd;
+    /* blue-50 */
+}
+
+/* --- DONE: GREEN --- */
+[data-status="done"] .task-card {
+    border-color: #22c55e;
+    /* green-500 */
+    background-color: #86efac;
+    /* green-50 */
+}
+
+/* Fix for the title in Done column */
+[data-status="done"] .task-title {
+    text-decoration: line-through;
+    opacity: 0.5;
 }

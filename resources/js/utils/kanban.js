@@ -63,6 +63,16 @@ function updateTaskStatus(taskId, newStatus, targetColumn) {
         .then((data) => {
             if (data.success) {
                 targetColumn.appendChild(taskElement);
+                // Find the title inside the moved task
+                const titleElement = taskElement.querySelector("h3");
+
+                if (newStatus === "done") {
+                    // Add line-through and dim the text
+                    titleElement.classList.add("line-through", "opacity-50");
+                } else {
+                    // Remove them if moving back to 'todo' or 'in_progress'
+                    titleElement.classList.remove("line-through", "opacity-50");
+                }
                 updateColumnCounts();
             }
         })

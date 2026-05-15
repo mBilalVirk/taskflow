@@ -18,3 +18,7 @@
 1. kanban board created.
 2. User can create task.
 3. Change the status.
+
+# 15/04/2026
+
+1. Some bug fix in kanban board.
