@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Events\TaskCreated; // You will create this below
 use App\Notifications\TaskAssigned; // You will create this below
+
+use App\Events\TaskUpdated;
+use App\Events\TaskDeleted;
+use App\Events\TaskStatusChanged;
 class TaskController extends Controller
 {
     use AuthorizesRequests;
@@ -74,8 +78,14 @@ class TaskController extends Controller
 
         // 3. 🔥 LIVE UPDATE: Broadcast to the project channel
         // This tells Reverb to inform everyone else looking at the board
-        //broadcast(new TaskCreated($task))->toOthers();
+        $task->load(['creator', 'assignee', 'project']);
 
+        \Log::info('=== Broadcasting TaskCreated ===', [
+            'task_id' => $task->id,
+            'channel' => "team.{$task->project->team_id}.project.{$task->project_id}",
+        ]);
+        broadcast(new TaskCreated($task))->toOthers();
+        \Log::info('Broadcast call completed');
         // 4. 🔔 NOTIFICATION: If a user is assigned, notify them instantly
         if ($task->assigned_to && $task->assigned_to !== auth()->id()) {
             $task->assignee->notify(new TaskAssigned($task));
@@ -136,7 +146,24 @@ class TaskController extends Controller
             'status' => 'required|in:todo,in_progress,done',
         ]);
 
+        // Store old values
+        $old_status = $task->status;
+        $old_assigned = $task->assigned_to;
         $task->update($validated);
+        $task->load('assignee', 'creator');
+
+        // Broadcast event
+        broadcast(new TaskUpdated($task))->toOthers();
+
+        // If status changed
+        if ($old_status !== $task->status) {
+            broadcast(new TaskStatusChanged($task, $old_status, $task->status))->toOthers();
+        }
+
+        // If assigned to different person
+        if ($old_assigned !== $task->assigned_to && $task->assigned_to) {
+            $task->assignee->notify(new \App\Notifications\TaskAssignedNotification($task));
+        }
 
         if (request()->expectsJson()) {
             return response()->json([
@@ -161,6 +188,19 @@ class TaskController extends Controller
             'order' => 'nullable|integer',
         ]);
 
+        $old_status = $task->status;
+
+        $task->update([
+            'status' => $validated['status'],
+            'order_in_status' => $validated['order'] ?? 0,
+        ]);
+
+        $task->load('assignee', 'creator');
+
+        // BROADCAST - Triggers live update for all users
+       broadcast(new TaskStatusChanged($task, $old_status, $task->status))->toOthers();
+       
+        
         $task->update([
             'status' => $validated['status'],
             'order_in_status' => $validated['order'] ?? 0,
@@ -182,15 +222,20 @@ class TaskController extends Controller
         // Delete comments and attachments
         $task->comments()->delete();
         $task->attachments()->delete();
-
+        $task_id = $task->id;
+        $task_title = $task->title;
         // Delete task
         $task->delete();
+
+        // BROADCAST - Delete event
+        broadcast(new TaskDeleted($task_id, $team->id, $project->id, $task_title))->toOthers();
 
         if (request()->expectsJson()) {
             return response()->json(['success' => true]);
         }
 
-        return back()->with('success', 'Task deleted!');
+        return redirect()->route('projects.show', [$team, $project])
+                 ->with('success', 'Task deleted successfully!');
     }
 
     /**

@@ -14,13 +14,37 @@ Broadcast::channel('test', function () {
 });
 
 // Your project channel (safe version)
-Broadcast::channel('project.{projectId}', function (User $user, $projectId) {
-    $project = Project::find($projectId);
-    
+Broadcast::channel('team.{teamId}.project.{projectId}', function ($user, $teamId, $projectId) {
+
+    $project = \App\Models\Project::where('id', $projectId)
+        ->where('team_id', $teamId)
+        ->first();
+
     if (!$project) {
         return false;
     }
 
-    // Adjust this based on your logic
-    return $user->currentTeam?->id === $project->team_id;
+    return (string) $project->team_id === (string) $teamId;
+});
+
+Broadcast::channel('team.{teamId}.project.{projectId}.task.{taskId}', function ($user, $teamId, $projectId, $taskId) {
+    $project = Project::where('id', $projectId)
+        ->where('team_id', $teamId)
+        ->first();
+
+    if (!$project) {
+        return false;
+    }
+
+    // Check if user belongs to the team
+    if (!$user->belongsToTeam($teamId)) {   // or use your own method
+        return false;
+    }
+
+    // Optional: Check if task belongs to the project
+    $taskExists = \App\Models\Task::where('id', $taskId)
+        ->where('project_id', $projectId)
+        ->exists();
+
+    return $taskExists;
 });

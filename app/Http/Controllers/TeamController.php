@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentAdded;
 use App\Models\Team;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
+
 class TeamController extends Controller
 {
     use AuthorizesRequests;
-    
 
     // ===== TEAM DASHBOARD =====
     /**
@@ -18,17 +19,14 @@ class TeamController extends Controller
     public function dashboard()
     {
         $team = auth()->user()->currentTeam();
-        
+
         if (!$team) {
             return redirect('/create-team');
         }
 
         $members = $team->members()->count();
         $projects = $team->projects()->count();
-        $tasks = $team->projects()
-            ->withCount('tasks')
-            ->get()
-            ->sum('tasks_count');
+        $tasks = $team->projects()->withCount('tasks')->get()->sum('tasks_count');
 
         return view('team.dashboard', compact('team', 'members', 'projects', 'tasks'));
     }
@@ -80,7 +78,7 @@ class TeamController extends Controller
         $this->authorize('view', $team);
 
         $members = $team->members()->paginate(15);
-        
+
         return view('team.members.index', compact('team', 'members'));
     }
 
@@ -147,7 +145,8 @@ class TeamController extends Controller
             'role' => 'required|in:member,manager,admin',
         ]);
 
-        $team->members()
+        $team
+            ->members()
             ->where('user_id', $user->id)
             ->update(['role' => $validated['role']]);
 
@@ -167,11 +166,13 @@ class TeamController extends Controller
         }
 
         // Remove all tasks assigned to this user
-        $team->projects()
+        $team
+            ->projects()
             ->with('tasks')
             ->get()
             ->each(function ($project) use ($user) {
-                $project->tasks()
+                $project
+                    ->tasks()
                     ->where('assigned_to', $user->id)
                     ->update(['assigned_to' => null]);
             });
@@ -197,7 +198,7 @@ class TeamController extends Controller
     {
         // Check how many teams user already owns
         $ownedTeams = auth()->user()->createdTeams()->count();
-        
+
         if ($ownedTeams >= 5) {
             return back()->with('error', 'You can only create 5 teams. Please upgrade or delete an existing team.');
         }
@@ -220,6 +221,8 @@ class TeamController extends Controller
         // Add creator as admin member
         $team->members()->attach(auth()->id(), ['role' => 'admin']);
 
+        // BROADCAST - New comment
+        broadcast(new CommentAdded($comment))->toOthers();
         // Create subscription
         $team->subscription()->create([
             'plan' => 'free',

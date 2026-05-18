@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TaskCreated implements ShouldBroadcast
+class TaskUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -34,14 +34,14 @@ class TaskCreated implements ShouldBroadcast
 
     public function broadcastAs(): string
     {
-        return 'TaskCreated';
+        return 'TaskUpdated';
     }
 
     public function broadcastWith(): array
     {
         return [
             'task' => $this->task,
-            'message' => "New task created: {$this->task->title}",
+            'message' => "Task updated: {$this->task->title}",
         ];
     }
 }

@@ -391,3 +391,168 @@
         </script>
 
     @endsection
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            console.log('✅ Laravel Echo initialized with Reverb');
+
+            const teamId = '{{ $team->id }}';
+            const projectId = '{{ $project->id }}';
+            const channelName = `team.${teamId}.project.${projectId}`;
+
+            console.log('🔗 Subscribing to:', channelName);
+
+            const channel = window.Echo.private(channelName);
+
+            channel.subscribed(() => {
+                console.log('✅ Successfully subscribed to channel');
+            });
+
+            // Real-time Listeners
+            channel
+                .listen('TaskCreated', (event) => {
+                    console.log('✅ TaskCreated received:', event);
+                    window.showToast(event.message || 'New task created!', 'success');
+                    setTimeout(() => location.reload(), 800);
+                })
+                .listen('.TaskCreated', (event) => {
+                    console.log('✅ .TaskCreated received:', event);
+                    window.showToast(event.message || 'New task created!', 'success');
+                    setTimeout(() => location.reload(), 800);
+                })
+
+                .listen('TaskUpdated', (event) => {
+                    console.log('✅ TaskUpdated received:', event);
+                    window.showToast(event.message || 'Task updated!', 'info');
+                    updateTaskInBoard(event.task);
+                })
+                .listen('.TaskUpdated', (event) => {
+                    console.log('✅ .TaskUpdated received:', event);
+                    window.showToast(event.message || 'Task updated!', 'info');
+                    updateTaskInBoard(event.task);
+                })
+
+                .listen('TaskStatusChanged', (event) => {
+                    console.log('✅ TaskStatusChanged received:', event);
+                    window.showToast(event.message || 'Task moved!', 'info');
+                    moveTaskBetweenColumns(event.task, event.old_status, event.new_status);
+                })
+                .listen('.TaskStatusChanged', (event) => {
+                    console.log('✅ .TaskStatusChanged received:', event);
+                    window.showToast(event.message || 'Task moved!', 'info');
+                    moveTaskBetweenColumns(event.task, event.old_status, event.new_status);
+                })
+
+                .listen('TaskDeleted', (event) => {
+                    console.log('✅ TaskDeleted received:', event);
+                    window.showToast(event.message || 'Task deleted!', 'warning');
+                    removeTaskFromBoard(event.task_id);
+                })
+                .listen('.TaskDeleted', (event) => {
+                    console.log('✅ .TaskDeleted received:', event);
+                    window.showToast(event.message || 'Task deleted!', 'warning');
+                    removeTaskFromBoard(event.task_id);
+                })
+
+                .error((error) => {
+                    console.error('❌ Echo Error:', error);
+                });
+
+            // Helper Functions
+            function updateTaskInBoard(task) {
+                const taskCard = document.querySelector(`[data-id="${task.id}"]`);
+                if (taskCard) {
+                    const title = taskCard.querySelector('h3');
+                    const desc = taskCard.querySelector('p');
+                    if (title) title.textContent = task.title;
+                    if (desc) desc.textContent = task.description || '';
+                }
+            }
+
+            function moveTaskBetweenColumns(task, oldStatus, newStatus) {
+                const taskCard = document.querySelector(`[data-id="${task.id}"]`);
+                if (!taskCard) {
+                    console.warn('Task card not found for moving');
+                    return;
+                }
+
+                const oldColumn = document.getElementById(`${oldStatus}-column`);
+                const newColumn = document.getElementById(`${newStatus}-column`);
+
+                if (!newColumn) {
+                    console.warn(`New column "${newStatus}-column" not found`);
+                    return;
+                }
+
+                // Move the card with smooth animation
+                taskCard.style.transition = 'all 0.3s ease';
+                taskCard.style.opacity = '0.6';
+
+                setTimeout(() => {
+                    // Move to new column
+                    if (oldColumn) {
+                        oldColumn.removeChild(taskCard);
+                    }
+                    newColumn.appendChild(taskCard);
+
+                    // Reset style
+                    taskCard.style.opacity = '1';
+                    taskCard.style.transform = '';
+
+                    // Update counts and empty states
+                    updateColumnCountsAndEmptyStates();
+                }, 150);
+            }
+
+            // ==================== Helper Function ====================
+            function updateColumnCountsAndEmptyStates() {
+                const statuses = ['todo', 'in_progress', 'done'];
+
+                statuses.forEach(status => {
+                    const column = document.getElementById(`${status}-column`);
+                    if (!column) return;
+
+                    const countBadge = document.querySelector(`[data-status="${status}"] span`);
+                    const taskCount = column.children.length;
+
+                    // Update count badge
+                    if (countBadge) {
+                        countBadge.textContent = taskCount;
+                    }
+
+                    // Handle "No tasks yet" message
+                    let emptyMsg = column.querySelector('.text-center.py-8');
+
+                    if (taskCount === 0) {
+                        if (!emptyMsg) {
+                            const emptyHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-inbox text-2xl mb-2"></i>
+                        <p>No tasks yet</p>
+                    </div>
+                `;
+                            column.insertAdjacentHTML('beforeend', emptyHTML);
+                        }
+                    } else {
+                        if (emptyMsg) emptyMsg.remove();
+                    }
+                });
+            }
+
+            function removeTaskFromBoard(taskId) {
+
+                const taskCard = document.querySelector(`[data-id="${taskId}"]`);
+
+                if (taskCard) {
+                    taskCard.style.transition = 'all 0.3s ease';
+                    taskCard.style.opacity = '0';
+                    taskCard.style.transform = 'scale(0.95)';
+                    setTimeout(() => taskCard.remove(), 300);
+                }
+            }
+
+
+        });
+    </script>

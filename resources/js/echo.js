@@ -1,24 +1,21 @@
 import Echo from "laravel-echo";
-import Pusher from "pusher-js";
 
+import Pusher from "pusher-js";
 window.Pusher = Pusher;
 
 window.Echo = new Echo({
     broadcaster: "reverb",
     key: import.meta.env.VITE_REVERB_APP_KEY,
     wsHost: import.meta.env.VITE_REVERB_HOST,
-    wsPort: import.meta.env.VITE_REVERB_PORT ?? 8080,
-    wssPort: import.meta.env.VITE_REVERB_PORT ?? 8080,
-    forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? "http") === "https",
+    wsPort: import.meta.env.VITE_REVERB_PORT ?? 80,
+    wssPort: import.meta.env.VITE_REVERB_PORT ?? 443,
+    forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? "https") === "https",
     enabledTransports: ["ws", "wss"],
-
-    // === IMPORTANT FOR PRIVATE/PRESENCE CHANNELS ===
-    authEndpoint: "/broadcasting/auth",
+    // ← This is usually missing or wrong
     auth: {
         headers: {
-            "X-CSRF-TOKEN": document
-                .querySelector('meta[name="csrf-token"]')
-                ?.getAttribute("content"),
+            Authorization: "Bearer " + localStorage.getItem("token"), // or your token source
+            // Or if using Sanctum + cookie: don't send Authorization, rely on X-XSRF-TOKEN
         },
     },
 });

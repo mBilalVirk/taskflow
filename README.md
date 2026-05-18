@@ -22,3 +22,7 @@
 # 15/04/2026
 
 1. Some bug fix in kanban board.
+
+# 18/04/2026
+
+1. Live update Kanban Board.
