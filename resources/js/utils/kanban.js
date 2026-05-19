@@ -56,6 +56,7 @@ function updateTaskStatus(taskId, newStatus, targetColumn) {
         headers: {
             "Content-Type": "application/json",
             "X-CSRF-TOKEN": window.kanbanConfig.csrfToken,
+            Accept: "application/json",
         },
         body: JSON.stringify({ status: newStatus }),
     })
@@ -74,11 +75,16 @@ function updateTaskStatus(taskId, newStatus, targetColumn) {
                     titleElement.classList.remove("line-through", "opacity-50");
                 }
                 updateColumnCounts();
+            } else if (data.success === false) {
+                window.showToast(
+                    data.message || "Failed to move task",
+                    "warning",
+                );
             }
         })
         .catch((err) => {
-            console.error(err);
-            alert("Failed to move task");
+            //console.error(err);
+            //alert("Failed to move task");
         })
         .finally(() => {
             draggedTask = null;

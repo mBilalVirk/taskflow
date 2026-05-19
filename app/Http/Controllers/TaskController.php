@@ -181,7 +181,16 @@ class TaskController extends Controller
      */
     public function updateStatus(Request $request, Team $team, Project $project, Task $task)
     {
-        $this->authorize('view', $task);
+        if (!auth()->user()->can('manageStatus', $task)) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'You don\'t have permission to move this task.',
+                    'error' => 'unauthorized',
+                ],
+                403,
+            );
+        }
 
         $validated = $request->validate([
             'status' => 'required|in:todo,in_progress,done',
@@ -198,13 +207,9 @@ class TaskController extends Controller
         $task->load('assignee', 'creator');
 
         // BROADCAST - Triggers live update for all users
-       broadcast(new TaskStatusChanged($task, $old_status, $task->status))->toOthers();
-       
+        broadcast(new TaskStatusChanged($task, $old_status, $task->status))->toOthers();
+
         
-        $task->update([
-            'status' => $validated['status'],
-            'order_in_status' => $validated['order'] ?? 0,
-        ]);
 
         return response()->json([
             'success' => true,
@@ -234,8 +239,9 @@ class TaskController extends Controller
             return response()->json(['success' => true]);
         }
 
-        return redirect()->route('projects.show', [$team, $project])
-                 ->with('success', 'Task deleted successfully!');
+        return redirect()
+            ->route('projects.show', [$team, $project])
+            ->with('success', 'Task deleted successfully!');
     }
 
     /**

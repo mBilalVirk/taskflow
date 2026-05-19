@@ -51,4 +51,30 @@ class TaskPolicy
     {
         return $user->hasTeamAccess($task->project->team);
     }
+    public function manageStatus(User $user, Task $task): bool
+{
+    // Make sure relationships are loaded
+    if (!$task->relationLoaded('project')) {
+        $task->load('project.team');
+    }
+
+    $team = $task->project->team;
+
+    // User is in the team (via team_members pivot)
+    // if ($team && $user->teams()->where('teams.id', $team->id)->exists()) {
+    //     return true;
+    // }
+
+    // User is assigned to the task
+    if ($user->id === $task->assigned_to) {
+        return true;
+    }
+
+    // User created the task
+    if ($user->id === $task->created_by) {
+        return true;
+    }
+
+    return false;
+}
 }
