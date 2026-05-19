@@ -30,3 +30,4 @@
 # 19/04/2026
 
 1. Notification bugfix.
+2. Tasks status permission update. only admin and manager can update, member only observe.
