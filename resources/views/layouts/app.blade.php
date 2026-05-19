@@ -247,7 +247,7 @@
 
                     <!-- Notifications -->
                     <!-- Notifications -->
-                    <div class="relative">
+                    {{-- <div class="relative">
 
                         <!-- Button -->
                         <button id="notificationBtn"
@@ -302,8 +302,8 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
-
+                    </div> --}}
+                    @include('components.notification-bell')
                     <!-- User Menu Mobile -->
                     <div class="md:hidden">
                         @auth

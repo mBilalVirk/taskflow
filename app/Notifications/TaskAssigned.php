@@ -34,6 +34,7 @@ class TaskAssigned extends Notification implements ShouldBroadcast
         return [
             'task_id' => $this->task->id,
             'title' => $this->task->title,
+            'message' => "You have been assigned to: {$this->task->title}",
         ];
     }
 }

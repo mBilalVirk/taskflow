@@ -26,3 +26,7 @@
 # 18/04/2026
 
 1. Live update Kanban Board.
+
+# 19/04/2026
+
+1. Notification bugfix.
