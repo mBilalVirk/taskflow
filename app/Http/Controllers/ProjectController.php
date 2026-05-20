@@ -79,6 +79,16 @@ class ProjectController extends Controller
             ...$validated,
         ]);
 
+        // LOG ACTIVITY
+    \App\Models\ActivityLog::log(
+        $team->id,
+        auth()->id(),
+        'created',
+        'Project',
+        $project->id,
+        auth()->user()->name . " created project: {$project->name}"
+    );
+
         // 🔥 Send notification to all team members except the creator
         $team->members()
         ->where('users.id', '!=', auth()->id())

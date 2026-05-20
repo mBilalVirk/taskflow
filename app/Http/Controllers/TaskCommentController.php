@@ -42,6 +42,15 @@ class TaskCommentController extends Controller
             'content' => $validated['content'],
         ]);
 
+        // LOG ACTIVITY
+    \App\Models\ActivityLog::log(
+        $team->id,
+        auth()->id(),
+        'commented',
+        'Task',
+        $task->id,
+        auth()->user()->name . " commented on task: {$task->title}"
+    );
         $comment->load('user');
 
         if (request()->expectsJson()) {

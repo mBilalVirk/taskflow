@@ -76,6 +76,16 @@ class TaskController extends Controller
             'due_date' => $validated['due_date'],
         ]);
 
+        // LOG ACTIVITY
+    \App\Models\ActivityLog::log(
+        $team->id,
+        auth()->id(),
+        'created',
+        'Task',
+        $task->id,
+        auth()->user()->name . " created task: {$task->title}"
+    );
+
         // 3. 🔥 LIVE UPDATE: Broadcast to the project channel
         // This tells Reverb to inform everyone else looking at the board
         $task->load(['creator', 'assignee', 'project']);

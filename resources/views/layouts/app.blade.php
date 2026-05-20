@@ -133,14 +133,14 @@
             <nav class="flex-1 p-4 space-y-1 overflow-y-auto bg-white">
                 <h3 class="text-[10px] font-bold text-slate-400 uppercase px-4 mb-4 tracking-[0.1em]">Menu</h3>
 
-                <a href="{{ route('team.dashboard', auth()->user()->currentTeam()) }}"
+                <a href="{{ route('analytics.team', auth()->user()->currentTeam()) }}"
                     class="group flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 
-        {{ request()->routeIs('team.dashboard')
+        {{ request()->routeIs('analytics.team')
             ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
             : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-700' }}">
                     <i
                         class="fas fa-home w-5 mr-3 text-center transition-colors 
-            {{ request()->routeIs('team.dashboard') ? 'text-white' : 'text-slate-400 group-hover:text-indigo-600' }}">
+            {{ request()->routeIs('analytics.team') ? 'text-white' : 'text-slate-400 group-hover:text-indigo-600' }}">
                     </i>
                     Dashboard
                 </a>

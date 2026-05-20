@@ -29,11 +29,17 @@
                             Edit
                         </a>
 
+                        <a href="{{ route('analytics.project', [$team, $project]) }}"
+                            class="flex-1 md:flex-none text-center px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
+                            Analytics
+                        </a>
+
                         <!-- New Task Button (Primary Style) -->
                         <button onclick="openCreateTaskModal('todo')"
                             class="flex-1 md:flex-none text-center px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-sm">
                             <span class="mr-1">+</span> New Task
                         </button>
+
                     </div>
 
                 </div>

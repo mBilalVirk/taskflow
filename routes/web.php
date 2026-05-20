@@ -2,12 +2,15 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskCommentController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
-use Illuminate\Support\Facades\Route;
+use App\Models\Project;
+use App\Models\Team;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Route;
 
 
 // BROADCASTING AUTHENTICATION - ADD THIS FIRST!
@@ -95,4 +98,26 @@ Route::middleware('auth')->prefix('team/{team}/projects/{project}/tasks/{task}/c
     
     Route::post('/', [TaskCommentController::class, 'store'])->name('store');
     Route::delete('{comment}', [TaskCommentController::class, 'destroy'])->name('destroy');
+});
+
+
+Route::middleware('auth')->prefix('notifications')->name('notifications.')->group(function () {
+    Route::get('/', [NotificationController::class, 'index'])->name('index');
+    Route::get('/count', [NotificationController::class, 'count'])->name('count');
+    Route::get('/recent', [NotificationController::class, 'recent'])->name('recent');
+    Route::put('{notification}/read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
+    Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-read');
+    Route::delete('{notification}', [NotificationController::class, 'destroy'])->name('destroy');
+});
+// Analytics routes - Using Livewire components
+Route::middleware('auth')->prefix('team/{team}')->group(function () {
+    Route::get('/analytics', function (Team $team) {
+        return view('analytics.dashboard', ['team' => $team]);
+    })->name('analytics.team');
+    
+    Route::prefix('projects/{project}')->group(function () {
+        Route::get('/analytics', function (Team $team, Project $project) {
+            return view('analytics.project', ['team' => $team, 'project' => $project]);
+        })->name('analytics.project');
+    });
 });

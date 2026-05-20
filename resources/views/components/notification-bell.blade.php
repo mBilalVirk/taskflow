@@ -155,7 +155,7 @@
     }
 
     function markAllRead() {
-        fetch('{{ route('notifications.mark-all-as-read') }}', {
+        fetch('{{ route('notifications.mark-all-read') }}', {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
