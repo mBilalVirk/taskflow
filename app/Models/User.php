@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use Illuminate\Support\Facades\Storage; 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -97,4 +97,11 @@ class User extends Authenticatable
             ->wherePivot('role', 'admin')
             ->exists();
     }
+
+    public function getAvatarUrlAttribute()
+{
+    return $this->avatar_path 
+        ? Storage::disk('public')->url($this->avatar_path) 
+        : null;
+}
 }

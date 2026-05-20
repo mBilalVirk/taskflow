@@ -40,6 +40,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    // Profile Settings Route
+    Route::get('/user/profile', function () {
+        return view('profile.index');
+    })->name('profile.show');
+     Route::get('/user/password', function () {
+        return view('profile.password');
+    })->name('profile.password');
 });
 
 // ===== TEAM ROUTES =====

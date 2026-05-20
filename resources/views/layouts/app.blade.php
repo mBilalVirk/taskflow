@@ -208,10 +208,12 @@
 
                     <!-- User Dropdown -->
                     <div id="user-menu" class="hidden mt-2 space-y-1">
-                        <a href="#" class="block p-2 rounded text-sm text-gray-700 hover:bg-gray-100">
+                        <a href="{{ route('profile.show') }}"
+                            class="block p-2 rounded text-sm text-gray-700 hover:bg-gray-100">
                             <i class="fas fa-user mr-2"></i> Profile
                         </a>
-                        <a href="#" class="block p-2 rounded text-sm text-gray-700 hover:bg-gray-100">
+                        <a href="{{ route('profile.password') }}"
+                            class="block p-2 rounded text-sm text-gray-700 hover:bg-gray-100">
                             <i class="fas fa-key mr-2"></i> Change Password
                         </a>
                         <hr class="my-2">
