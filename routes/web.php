@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskCommentController;
@@ -129,3 +130,27 @@ Route::middleware('auth')->prefix('team/{team}')->group(function () {
         })->name('analytics.project');
     });
 });
+
+
+
+
+// Billing routes - PUBLIC
+Route::get('/pricing', function () {
+    return view('billing.pricing');
+})->name('billing.pricing');
+
+// Billing routes - AUTHENTICATED
+Route::middleware('auth')->prefix('billing')->name('billing.')->group(function () {
+    Route::get('/{team}/checkout', function (Team $team) {
+        return view('billing.checkout', ['team' => $team]);
+    })->name('checkout');
+
+    Route::get('/{team}/dashboard', function (Team $team) {
+        return view('billing.dashboard', ['team' => $team]);
+    })->name('dashboard');
+
+    Route::get('/{team}/success', [BillingController::class, 'success'])->name('success');
+});
+
+// Stripe webhook - PUBLIC (unauthenticated)
+Route::post('/webhook/stripe', [BillingController::class, 'handleWebhook']);

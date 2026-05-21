@@ -36,3 +36,8 @@
 
 1. Team analytics, project analytics added.
 2. User Account setting. User can update profile and password.
+3.
+
+# 21/04/2026
+
+1. Subscription integrations. I

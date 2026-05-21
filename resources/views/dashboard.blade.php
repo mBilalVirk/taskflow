@@ -19,6 +19,7 @@
 
         @php
             $team = auth()->user()->currentTeam();
+            \Log::debug('Current Team: ' . ($team ? $team->id : 'No team found'));
             $memberCount = $team->members()->count();
             $projectCount = $team->projects()->count();
             $taskCount = $team->projects()->withCount('tasks')->get()->sum('tasks_count');
@@ -317,6 +318,7 @@
         <!-- Subscription Info -->
         @php
             $subscription = $team->subscription;
+            // \Log::debug(' subscription: ' . $subscription);
         @endphp
         <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
             <div class="flex items-center justify-between">
@@ -334,10 +336,12 @@
                         </span>
                     </p>
                 </div>
-                <a href="#" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 font-semibold">
+                <a href="{{ route('billing.dashboard', $team->id) }}"
+                    class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 font-semibold">
                     Manage Billing
                 </a>
             </div>
         </div>
+        {{-- <a href="{{ route('billing.pricing') }}">Billing</a> --}}
     </div>
 @endsection

@@ -82,9 +82,14 @@ class User extends Authenticatable
     public function currentTeam()
     {
         return $this->teams()->find(session('current_team_id')) 
-            ?? $this->teams()->first();
+            ?? $this->teams()->first() ;
+        
     }
 
+    public function isCurrentTeam()
+    {
+        return $this->belongsTo(Team::class, 'current_team_id');
+    }
     public function hasTeamAccess(Team $team)
     {
         return $this->teams()->where('teams.id', $team->id)->exists();
