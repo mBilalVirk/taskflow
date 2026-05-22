@@ -17,9 +17,10 @@ use Illuminate\Support\Facades\Route;
 // BROADCASTING AUTHENTICATION - ADD THIS FIRST!
 // Broadcast::routes(['middleware' => ['auth:sanctum']]);
 // Public routes
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', \App\Livewire\PublicWelcome::class)->name('welcome');
 
 // ✅ SHOW FORMS (GET routes)
 Route::get('/register', function () {
