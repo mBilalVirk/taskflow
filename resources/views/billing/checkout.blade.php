@@ -7,7 +7,6 @@
 
         @livewire('checkout-component', [
             'team' => $team,
-            'plan' => request('plan', 'pro'),
         ])
     </div>
 @endsection

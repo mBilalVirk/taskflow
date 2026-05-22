@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class CheckoutComponent extends Component
 {
     public Team $team;
-    public string $plan;
+    public string $plan = 'pro';
     public string $status = '';
     public bool $isProcessing = false;
 
@@ -24,14 +24,15 @@ class CheckoutComponent extends Component
     {
         $this->team = $team;
         // Get plan from URL query parameter
-    $planFromUrl = $request->query('plan');
-    
-    // Validate plan is one of the allowed values
-    $allowedPlans = array_keys(\App\Models\Subscription::plans());
-    
-    if ($planFromUrl && in_array($planFromUrl, $allowedPlans)) {
-        $this->plan = $planFromUrl;
-    }
+        $planFromUrl = $request->query('plan');
+        $allowedPlans = array_keys(\App\Models\Subscription::plans());
+        
+        // Set plan - always has a value
+        if ($planFromUrl && in_array($planFromUrl, $allowedPlans)) {
+            $this->plan = $planFromUrl; // ✅ from URL
+        } else {
+            $this->plan = 'pro'; // ✅ fallback default
+        }
     }
 
     public function checkout()

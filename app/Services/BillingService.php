@@ -106,7 +106,7 @@ class BillingService
         return match ($plan) {
             'free' => 1,
             'pro' => 5,
-            'enterprise' => null,
+            'enterprise' => 99999,
             default => 1,
         };
     }
