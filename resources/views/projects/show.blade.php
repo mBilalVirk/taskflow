@@ -93,10 +93,12 @@
                                 </div>
 
                                 @if ($task->assignee)
-                                    <img src="{{ $task->assignee->avatar ?? 'https://ui-avatars.com/api/?background=random&name=' . urlencode($task->assignee->name) }}"
-                                        alt="{{ $task->assignee->name }}"
+                                    <img src="{{ $task->assignee && $task->assignee->avatar
+                                        ? asset('storage/' . $task->assignee->avatar)
+                                        : 'https://ui-avatars.com/api/?background=random&name=' . urlencode($task->assignee->name ?? 'User') }}"
+                                        alt="{{ $task->assignee->name ?? 'User' }}"
                                         class="w-7 h-7 rounded-full border-2 border-white shadow-sm"
-                                        title="{{ $task->assignee->name }}">
+                                        title="{{ $task->assignee->name ?? 'User' }}">
                                 @endif
                             </div>
                         </div>
@@ -159,10 +161,12 @@
                                 </div>
 
                                 @if ($task->assignee)
-                                    <img src="{{ $task->assignee->avatar ?? 'https://ui-avatars.com/api/?background=random&name=' . urlencode($task->assignee->name) }}"
-                                        alt="{{ $task->assignee->name }}"
+                                    <img src="{{ $task->assignee && $task->assignee->avatar
+                                        ? asset('storage/' . $task->assignee->avatar)
+                                        : 'https://ui-avatars.com/api/?background=random&name=' . urlencode($task->assignee->name ?? 'User') }}"
+                                        alt="{{ $task->assignee->name ?? 'User' }}"
                                         class="w-7 h-7 rounded-full border-2 border-white shadow-sm"
-                                        title="{{ $task->assignee->name }}">
+                                        title="{{ $task->assignee->name ?? 'User' }}">
                                 @endif
                             </div>
                         </div>
@@ -227,10 +231,12 @@
                                 </div>
 
                                 @if ($task->assignee)
-                                    <img src="{{ $task->assignee->avatar ?? 'https://ui-avatars.com/api/?background=random&name=' . urlencode($task->assignee->name) }}"
-                                        alt="{{ $task->assignee->name }}"
+                                    <img src="{{ $task->assignee && $task->assignee->avatar
+                                        ? asset('storage/' . $task->assignee->avatar)
+                                        : 'https://ui-avatars.com/api/?background=random&name=' . urlencode($task->assignee->name ?? 'User') }}"
+                                        alt="{{ $task->assignee->name ?? 'User' }}"
                                         class="w-7 h-7 rounded-full border-2 border-white shadow-sm"
-                                        title="{{ $task->assignee->name }}">
+                                        title="{{ $task->assignee->name ?? 'User' }}">
                                 @endif
                             </div>
                         </div>

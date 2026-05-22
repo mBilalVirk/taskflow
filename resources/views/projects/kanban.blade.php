@@ -17,7 +17,7 @@
 
         <!-- Kanban Board -->
         <div class="grid grid-cols-3 gap-6">
-            <!-- To Do Column -->
+            <!-- To Do Column-->
             <div class="bg-gray-100 rounded-lg p-4" data-status="todo">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-bold text-gray-900">To Do</h2>
@@ -62,9 +62,9 @@
                                 </div>
 
                                 @if ($task->assignee)
-                                    <img src="{{ $task->assignee->avatar ?? 'https://ui-avatars.com/api/?background=random&name=' . urlencode($task->assignee->name) }}"
+                                    <img src="{{ 'storage/' . $task->assignee->avatar ?? 'https://ui-avatars.com/api/?background=random&name=' . urlencode($task->assignee->name) }}"
                                         alt="{{ $task->assignee->name }}"
-                                        class="w-7 h-7 rounded-full border-2 border-white shadow-sm"
+                                        class="w-8 h-7 rounded-full border-2 border-white shadow-sm"
                                         title="{{ $task->assignee->name }}">
                                 @endif
                             </div>
@@ -118,8 +118,9 @@
                                     {{ ucfirst($task->priority) }}
                                 </span>
                                 @if ($task->assignee)
-                                    <img src="{{ $task->assignee->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($task->assignee->name) }}"
-                                        alt="{{ $task->assignee->name }}" class="w-6 h-6 rounded-full"
+                                    <img src="{{ asset('storage/' . $task->assignee->avatar) ?? 'https://ui-avatars.com/api/?name=' . urlencode($task->assignee->name) }}"
+                                        alt="{{ $task->assignee->name }}"
+                                        class="w-7 h-7 rounded-full border-2 border-white shadow-sm"
                                         title="{{ $task->assignee->name }}">
                                 @endif
                             </div>
@@ -180,8 +181,10 @@
                                     {{ ucfirst($task->priority) }}
                                 </span>
                                 @if ($task->assignee)
-                                    <img src="{{ $task->assignee->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($task->assignee->name) }}"
-                                        alt="{{ $task->assignee->name }}" class="w-6 h-6 rounded-full"
+                                    {{-- this is  --}}
+                                    <img src="{{ 'storage/' . $task->assignee->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($task->assignee->name) }}"
+                                        alt="{{ $task->assignee->name }}"
+                                        class="w-7 h-7 rounded-full border-2 border-white shadow-sm"
                                         title="{{ $task->assignee->name }}">
                                 @endif
                             </div>

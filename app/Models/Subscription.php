@@ -154,7 +154,7 @@ class Subscription extends Model
             'enterprise' => [
                 'name' => 'Enterprise',
                 'price' => 9900, // $99.00
-                'members_limit' => null, // unlimited
+                'members_limit' => 15, // unlimited
                 'features' => [
                     'Unlimited everything',
                     'Unlimited team members',
