@@ -45,25 +45,105 @@
             }
         }
     </style>
+
+    <script>
+        (function() {
+                // Prevent flash of unstyled content
+
+                document.documentElement.classList.add('no-transition');
+
+                function applyTheme() {
+                    let theme = localStorage.getItem('theme');
+
+
+                    @auth
+                    const serverPrefs = @json(auth()->user()->preferences ?? []);
+                    const serverTheme = serverPrefs.theme ?? null;
+                    if (!theme && serverTheme) {
+                        theme = serverTheme;
+                        localStorage.setItem('theme', theme);
+                    }
+                @endauth
+
+                // Default to dark if nothing is set
+                if (!theme) {
+                    theme = 'light';
+                    localStorage.setItem('theme', theme);
+                }
+
+                if (theme === 'system') {
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    document.documentElement.classList.toggle('dark', prefersDark);
+                } else {
+                    document.documentElement.classList.toggle('dark', theme === 'dark');
+                }
+            }
+
+            // Run immediately
+            applyTheme();
+
+            // Also run after DOM is fully loaded (safety net)
+            window.addEventListener('DOMContentLoaded', () => {
+                applyTheme();
+                setTimeout(() => {
+                    document.documentElement.classList.remove('no-transition');
+                }, 50);
+            });
+        })();
+    </script>
+
+    <script>
+        console.log('LOCALSTORAGE THEME:', localStorage.getItem('theme'));
+        @auth
+        console.log('SERVER PREFS:', @json(auth()->user()->preferences ?? null));
+        @endauth
+        window.addEventListener('theme-changed', (event) => {
+            const theme = event.detail.theme;
+            localStorage.setItem('theme', theme);
+
+            if (theme === 'system') {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.classList.toggle('dark', prefersDark);
+            } else {
+                document.documentElement.classList.toggle('dark', theme === 'dark');
+            }
+        });
+    </script>
+    <style>
+        /* Smooth color transitions */
+        * {
+            @apply transition-colors duration-200;
+        }
+
+        /* Prevent transition on initial load */
+        html.no-transition * {
+            @apply transition-none;
+        }
+
+        html.no-transition {
+            @apply transition-none;
+        }
+    </style>
 </head>
 
-<body class="bg-slate-50" data-theme="light" data-success="{{ session('success') ?? '' }}"
-    data-error="{{ session('error') ?? '' }}" data-warning="{{ session('warning') ?? '' }}"
-    data-info="{{ session('info') ?? '' }}">
+<body class="bg-white text-gray-900 dark:bg-dark-bg dark:text-white" data-theme="light"
+    data-success="{{ session('success') ?? '' }}" data-error="{{ session('error') ?? '' }}"
+    data-warning="{{ session('warning') ?? '' }}" data-info="{{ session('info') ?? '' }}">
     <div class="flex h-screen">
+
         <!-- Sidebar -->
         <aside id="sidebar"
-            class=" sidebar w-64 bg-white border-r border-gray-200 flex flex-col fixed md:static h-full z-50 md:translate-x-0 shadow-lg md:shadow-none">
+            class=" sidebar w-64 bg-white border-r border-gray-200 flex flex-col fixed md:static h-full z-50 md:translate-x-0 shadow-lg md:shadow-none dark:bg-dark-card dark:border-gray-700 ">
             <!-- Logo -->
             <a href="{{ route('dashboard') }}" class="block">
                 <div class="p-6 border-b border-gray-200">
                     <div class="flex items-center space-x-3">
                         <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-                            <span class="text-white font-bold text-lg">TF</span>
+                            <span class="text-white font-bold text-lg dark:text-white">TF</span>
                         </div>
                         <div>
-                            <h1 class="font-bold text-lg text-gray-900">TaskFlow</h1>
-                            <p class="text-xs text-gray-500">Project Management</p>
+                            <h1 class="font-bold text-lg text-gray-900 dark:text-white">TaskFlow</h1>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Project Management</p>
                         </div>
                     </div>
                 </div>
@@ -103,9 +183,9 @@
                                     @csrf
                                     <button type="submit"
                                         class="w-full flex items-center justify-between p-2.5 mb-1 rounded-lg text-sm transition-all duration-200 
-           {{ $currentTeam->id === $team->id
-               ? 'bg-indigo-50 text-indigo-700 font-bold border border-indigo-100'
-               : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600' }}">
+                                            {{ $currentTeam->id === $team->id
+                                                ? 'bg-indigo-50 text-indigo-700 font-bold border border-indigo-100'
+                                                : 'text-slate-600 hover:bg-slate-50 hover:text-indigo-600' }}">
 
                                         <span class="truncate">{{ $team->name }}</span>
 
@@ -130,14 +210,14 @@
             @endauth
 
             <!-- Navigation Menu -->
-            <nav class="flex-1 p-4 space-y-1 overflow-y-auto bg-white">
+            <nav class="flex-1 p-4 space-y-1 overflow-y-auto bg-white dark:bg-dark-card">
                 <h3 class="text-[10px] font-bold text-slate-400 uppercase px-4 mb-4 tracking-[0.1em]">Menu</h3>
 
                 <a href="{{ route('analytics.team', auth()->user()->currentTeam()) }}"
                     class="group flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 
-        {{ request()->routeIs('analytics.team')
-            ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
-            : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-700' }}">
+                                {{ request()->routeIs('analytics.team')
+                                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
+                                    : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-700' }}">
                     <i
                         class="fas fa-home w-5 mr-3 text-center transition-colors 
             {{ request()->routeIs('analytics.team') ? 'text-white' : 'text-slate-400 group-hover:text-indigo-600' }}">
@@ -147,24 +227,24 @@
 
                 <a href="{{ route('projects.index', auth()->user()->currentTeam()) }}"
                     class="group flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 
-        {{ request()->routeIs('projects.*')
-            ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
-            : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-700' }}">
+                    {{ request()->routeIs('projects.*')
+                        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
+                        : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-700' }}">
                     <i
                         class="fas fa-folder w-5 mr-3 text-center transition-colors 
-            {{ request()->routeIs('projects.*') ? 'text-white' : 'text-slate-400 group-hover:text-indigo-600' }}">
+                        {{ request()->routeIs('projects.*') ? 'text-white' : 'text-slate-400 group-hover:text-indigo-600' }}">
                     </i>
                     Projects
                 </a>
 
                 <a href="{{ route('team.members', auth()->user()->currentTeam()) }}"
                     class="group flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 
-        {{ request()->routeIs('team.members')
-            ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
-            : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-700' }}">
+                    {{ request()->routeIs('team.members')
+                        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
+                        : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-700' }}">
                     <i
                         class="fas fa-users w-5 mr-3 text-center transition-colors 
-            {{ request()->routeIs('team.members') ? 'text-white' : 'text-slate-400 group-hover:text-indigo-600' }}">
+                        {{ request()->routeIs('team.members') ? 'text-white' : 'text-slate-400 group-hover:text-indigo-600' }}">
                     </i>
                     Team
                 </a>
@@ -232,12 +312,13 @@
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Top Bar -->
-            <header class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+            <header
+                class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between dark:bg-dark-card dark:border-gray-700 ">
                 <div class="flex items-center">
                     <button id="mobile-menu-button" class="md:hidden text-gray-600 hover:text-gray-900 mr-4">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
-                    <h2 class="text-2xl font-bold text-gray-900">@yield('header', 'Dashboard')</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 ">@yield('header', 'Dashboard')</h2>
                 </div>
                 <div class="flex items-center space-x-4">
                     <div
@@ -306,6 +387,10 @@
                         </div>
                     </div> --}}
                     @include('components.notification-bell')
+
+
+                    <!-- Theme Toggle -->
+                    @livewire('theme-toggle')
                     <!-- User Menu Mobile -->
                     <div class="md:hidden">
                         @auth
