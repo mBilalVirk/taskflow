@@ -2,15 +2,15 @@
 @section('title', $project->name . ' - Kanban Board')
 
 @section('content')
-    <div class="min-h-screen bg-gray-50">
+    <div class="min-h-screen bg-gray-50 dark:bg-dark-bg">
         <!-- Header -->
-        <div class="bg-white shadow-sm border-b mb-10">
+        <div class="bg-white shadow-sm border-b mb-10 dark:bg-dark-card">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
 
                     <!-- Title and Task Count -->
                     <div>
-                        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">
+                        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight dark:text-gray-400">
                             {{ $project->name }}
                         </h1>
                         <p class="text-gray-500 max-w-2xl mt-1 leading-relaxed">
@@ -49,9 +49,9 @@
         <!-- Kanban Board -->
         <div class="grid grid-cols-3 gap-6 p-6">
             <!-- To Do Column -->
-            <div class="bg-gray-100 rounded-lg p-4" data-status="todo">
+            <div class="bg-gray-100 rounded-lg p-4 dark:bg-dark-card" data-status="todo">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-bold text-gray-900">To Do</h2>
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-gray-400">To Do</h2>
                     <span class="bg-gray-300 text-gray-700 px-3 py-1 rounded text-sm font-semibold">
                         {{ isset($tasks['todo']) ? $tasks['todo']->count() : 0 }}
                     </span>
@@ -117,9 +117,9 @@
             </div>
 
             <!-- In Progress Column -->
-            <div class="bg-gray-100 rounded-lg p-4" data-status="in_progress">
+            <div class="bg-gray-100 rounded-lg p-4 dark:bg-dark-card" data-status="in_progress">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-bold text-gray-900">In Progress</h2>
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-gray-400">In Progress</h2>
                     <span class="bg-blue-300 text-blue-700 px-3 py-1 rounded text-sm font-semibold">
                         {{ isset($tasks['in_progress']) ? $tasks['in_progress']->count() : 0 }}
                     </span>
@@ -185,9 +185,9 @@
             </div>
 
             <!-- Done Column -->
-            <div class="bg-gray-100 rounded-lg p-4" data-status="done">
+            <div class="bg-gray-100 rounded-lg p-4 dark:bg-dark-card" data-status="done">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-bold text-gray-900">Done</h2>
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-gray-400">Done</h2>
                     <span class="bg-green-300 text-green-700 px-3 py-1 rounded text-sm font-semibold">
                         {{ isset($tasks['done']) ? $tasks['done']->count() : 0 }}
                     </span>

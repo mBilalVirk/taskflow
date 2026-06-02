@@ -2,15 +2,15 @@
 @section('title', 'Team Members')
 
 @section('content')
-    <div class="min-h-screen bg-gray-50">
+    <div class="min-h-screen bg-gray-50 dark:bg-dark-bg">
         <!-- Header -->
-        <div class="bg-white shadow-sm border-b mb-10">
+        <div class="bg-white shadow-sm border-b mb-10 dark:bg-dark-card">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
 
                     <!-- Title and Context -->
                     <div>
-                        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">
+                        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight dark:text-gray-400">
                             Team Members
                         </h1>
                         <p class="text-gray-500 max-w-2xl mt-1 leading-relaxed">
@@ -22,8 +22,8 @@
                     @if (auth()->user()->isTeamAdmin($team))
                         <div class="flex items-center gap-3 w-full md:w-auto">
                             <a href="{{ route('team.invite-form', $team) }}"
-                                class="flex-1 md:flex-none text-center px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
-                                <span class="mr-1">+</span> Invite Member
+                                class="flex-1 md:flex-none text-center px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm dark:bg-dark-card dark:border-gray-400 dark:hover:bg-dark-hover">
+                                <span class="mr-1 dark:text-gray-400">+ Invite Member</span>
                             </a>
                         </div>
                     @endif
@@ -31,18 +31,22 @@
                 </div>
             </div>
         </div>
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
             <!-- Members Table -->
-            <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="bg-white rounded-lg shadow overflow-hidden dark:bg-dark-card ">
                 <table class="w-full">
-                    <thead class="bg-gray-50 border-b">
+                    <thead class="bg-gray-50 border-b dark:bg-dark-card dark:border-gray-400">
                         <tr>
-                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Name</th>
-                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Email</th>
-                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Role</th>
-                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Joined</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400">Name</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400">Email
+                            </th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400">Role</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400">Joined
+                            </th>
                             @if (auth()->user()->isTeamAdmin($team))
-                                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Actions</th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400">
+                                    Actions</th>
                             @endif
                         </tr>
                     </thead>
@@ -50,7 +54,7 @@
                         @foreach ($members as $member)
                             <tr>
                                 <td class="px-6 py-4">
-                                    <p class="font-medium text-gray-900">{{ $member->name }}</p>
+                                    <p class="font-medium text-gray-900 dark:text-gray-400">{{ $member->name }}</p>
                                 </td>
                                 <td class="px-6 py-4 text-gray-600">{{ $member->email }}</td>
                                 <td class="px-6 py-4">
@@ -62,13 +66,16 @@
                                             <select name="role" onchange="this.form.submit()"
                                                 class="border rounded px-2 py-1 text-sm">
                                                 <option value="member"
-                                                    {{ $member->pivot->role === 'member' ? 'selected' : '' }}>Member
+                                                    {{ $member->pivot->role === 'member' ? 'selected' : '' }}
+                                                    class="dark:text-gray-400">Member
                                                 </option>
                                                 <option value="manager"
-                                                    {{ $member->pivot->role === 'manager' ? 'selected' : '' }}>Manager
+                                                    {{ $member->pivot->role === 'manager' ? 'selected' : '' }}
+                                                    class="dark:text-gray-400">Manager
                                                 </option>
                                                 <option value="admin"
-                                                    {{ $member->pivot->role === 'admin' ? 'selected' : '' }}>Admin
+                                                    {{ $member->pivot->role === 'admin' ? 'selected' : '' }}
+                                                    class="dark:text-gray-400">Admin
                                                 </option>
                                             </select>
                                         </form>
