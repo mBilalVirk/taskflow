@@ -19,16 +19,25 @@
             </div>
 
             <!-- Auth Buttons -->
-            <div class="flex items-center gap-4">
-                <a href="{{ route('login') }}"
-                    class="px-4 py-2 text-gray-300 hover:text-white transition text-sm font-medium">
-                    Sign In
-                </a>
-                <a href="{{ route('register') }}"
-                    class="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-400 to-purple-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/50 transition btn-glow">
-                    Get Started Free
-                </a>
-            </div>
+            @auth
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('dashboard') }}"
+                        class="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-400 to-purple-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/50 transition btn-glow">
+                        Dashboard
+                    </a>
+                </div>
+            @else
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('login') }}"
+                        class="px-4 py-2 text-gray-300 hover:text-white transition text-sm font-medium">
+                        Sign In
+                    </a>
+                    <a href="{{ route('register') }}"
+                        class="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-400 to-purple-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/50 transition btn-glow">
+                        Get Started Free
+                    </a>
+                </div>
+            @endauth
         </div>
     </div>
 </nav>

@@ -18,7 +18,7 @@
             class="text-5xl md:text-7xl font-bold mb-6 leading-none tracking-tighter min-h-[160px] cursor-default transition-all duration-300">
         </h1>
 
-        <p
+        <p data-aos="zoom-in"
             class="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed transition-colors duration-300 hover:text-gray-300">
             Streamline your workflows, automate task delegation, and watch your productivity flow.
             <span class="text-cyan-400">TaskFlow</span> uses advanced AI to understand your projects and help you work
@@ -26,7 +26,7 @@
         </p>
 
         <!-- CTAs -->
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20" data-aos="zoom-in">
             <a href="{{ route('register') }}"
                 class="group px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-400 to-purple-500 text-white font-bold text-lg hover:shadow-2xl hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105 w-full sm:w-auto text-center">
                 Get Started Free

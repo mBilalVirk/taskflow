@@ -1,4 +1,4 @@
-<section id="pricing" class="py-20 px-6 bg-dark-card/20">
+<section id="pricing" class="py-20 px-6 bg-dark-card/20" data-aos="slide-up">
     <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
             <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">

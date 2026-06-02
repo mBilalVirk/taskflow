@@ -1,4 +1,4 @@
-<section id="solutions" class="py-20 px-6">
+<section id="solutions" class="py-20 px-6" data-aos="slide-up">
     <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
             <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">

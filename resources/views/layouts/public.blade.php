@@ -44,6 +44,15 @@
             transform: translateY(-2px);
         }
     </style>
+    <!-- In your layout public.blade.php, add to <head> -->
+
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+
 </head>
 
 <body class="bg-dark-bg text-white">
@@ -62,6 +71,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     @stack('scripts')
+    <!-- Initialize AOS -->
+    <script>
+        AOS.init({
+            duration: 1000,
+            offset: 120,
+            once: true,
+            easing: 'ease-in-out-cubic'
+        });
+    </script>
 </body>
 
 </html>
