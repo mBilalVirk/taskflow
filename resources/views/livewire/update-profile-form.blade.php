@@ -1,4 +1,5 @@
-<div class="max-w-2xl bg-white border border-slate-100 rounded-xl shadow-sm p-6 relative">
+<div
+    class="max-w-2xl bg-white border border-slate-100 rounded-xl shadow-sm p-6 relative dark:bg-dark-card dark:border-gray-400">
 
     <!-- Success Banner Notification -->
     <div x-data="{ show: false, message: '' }"
@@ -15,7 +16,7 @@
     </div>
 
     <div class="mb-6">
-        <h3 class="text-base font-bold text-slate-900">Profile Information</h3>
+        <h3 class="text-base font-bold text-slate-900 dark:text-gray-400">Profile Information</h3>
         <p class="text-xs text-slate-400 mt-1">Update your account's profile details and email address.</p>
     </div>
 
@@ -54,17 +55,18 @@
             </div>
         </div>
 
-        <hr class="border-slate-100">
+        <hr class="border-slate-100 dark:border-gray-400">
 
         <!-- Name Input -->
         <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Full Name</label>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2 dark:text-gray-400">Full
+                Name</label>
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                     <i class="fas fa-user text-sm"></i>
                 </div>
                 <input type="text" wire:model="name"
-                    class="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 transition-all text-slate-800 placeholder:text-slate-400">
+                    class="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 transition-all text-slate-800 placeholder:text-slate-400 dark:bg-dark-card dark:text-gray-300 dark:placeholder:text-gray-500 dark:border-gray-400">
             </div>
             @error('name')
                 <span class="text-xs text-rose-600 font-medium block mt-1">{{ $message }}</span>
@@ -73,13 +75,14 @@
 
         <!-- Email Input -->
         <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Email Address</label>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2 dark:text-gray-400">Email
+                Address</label>
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                     <i class="fas fa-envelope text-sm"></i>
                 </div>
                 <input type="email" wire:model="email"
-                    class="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 transition-all text-slate-800 placeholder:text-slate-400">
+                    class="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 transition-all text-slate-800 placeholder:text-slate-400 dark:bg-dark-card dark:text-gray-300 dark:placeholder:text-gray-500 dark:border-gray-400">
             </div>
             @error('email')
                 <span class="text-xs text-rose-600 font-medium block mt-1">{{ $message }}</span>
@@ -88,13 +91,14 @@
 
         <!-- Phone Input -->
         <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Phone Number</label>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2 dark:text-gray-400">Phone
+                Number</label>
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                     <i class="fas fa-phone text-sm"></i>
                 </div>
                 <input type="text" wire:model="phone"
-                    class="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 transition-all text-slate-800 placeholder:text-slate-400">
+                    class="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 transition-all text-slate-800 placeholder:text-slate-400 dark:bg-dark-card dark:text-gray-300 dark:placeholder:text-gray-500 dark:border-gray-400">
             </div>
             @error('phone')
                 <span class="text-xs text-rose-600 font-medium block mt-1">{{ $message }}</span>
@@ -103,13 +107,14 @@
 
         <!-- Country Input -->
         <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Country</label>
+            <label
+                class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2 dark:text-gray-400">Country</label>
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                     <i class="fas fa-globe text-sm"></i>
                 </div>
                 <input type="text" wire:model="country"
-                    class="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 transition-all text-slate-800 placeholder:text-slate-400">
+                    class="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 transition-all text-slate-800 placeholder:text-slate-400 dark:bg-dark-card dark:text-gray-300 dark:placeholder:text-gray-500 dark:border-gray-400">
             </div>
             @error('country')
                 <span class="text-xs text-rose-600 font-medium block mt-1">{{ $message }}</span>

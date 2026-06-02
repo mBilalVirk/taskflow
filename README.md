@@ -45,3 +45,7 @@
 # 01/06/2026
 
 1. Dark Mode Integrations.
+
+# 02/06/2026
+
+1. Converting all page into dark
