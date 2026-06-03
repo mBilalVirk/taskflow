@@ -58,6 +58,7 @@
 <body class="bg-dark-bg text-white">
     <!-- Navigation -->
     @include('components.public.navbar')
+    @include('components.public.animate-progress')
 
     <!-- Main Content -->
     <main>
