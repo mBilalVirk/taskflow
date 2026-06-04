@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\SetCurrentTeam::class,
         ]);
+         // Register route middleware (alias)
+    $middleware->alias([
+        'api-token' => \App\Http\Middleware\ApiTokenAuth::class,
+    ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

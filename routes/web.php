@@ -155,3 +155,10 @@ Route::middleware('auth')->prefix('billing')->name('billing.')->group(function (
 
 // Stripe webhook - PUBLIC (unauthenticated)
 Route::post('/webhook/stripe', [BillingController::class, 'handleWebhook']);
+
+// Swagger API documentation
+// Route::get('docs', function () {
+//     return response()->file(public_path('docs/api-docs.json'), [
+//         'Content-Type' => 'application/json'
+//     ]);
+// })->name('l5-swagger.default.docs');
