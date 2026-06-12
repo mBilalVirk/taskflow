@@ -227,6 +227,7 @@ class TeamController extends Controller
         $team->subscription()->create([
             'plan' => 'free',
             'status' => 'active',
+            'members_limit'=> '5'
         ]);
 
         return redirect("/team/{$team->id}/dashboard")->with('success', 'Team created successfully!');

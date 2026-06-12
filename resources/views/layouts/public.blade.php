@@ -43,6 +43,44 @@
         .btn-glow:hover {
             transform: translateY(-2px);
         }
+
+        body.light {
+            background: #61c2ff;
+            color: #111827;
+        }
+
+        body.light .text-gray-300 {
+            color: #4b5563 !important;
+        }
+
+        body.light .text-gray-400 {
+            color: #6b7280 !important;
+        }
+
+        body.light .text-gray-500 {
+            color: #6b7280 !important;
+        }
+
+        body.light .bg-dark-card {
+            background-color: #f9fafb !important;
+        }
+
+        body.light .bg-dark-bg {
+            background-color: #f8fafc !important;
+        }
+
+        body.light .border-gray-800 {
+            border-color: #e5e7eb !important;
+        }
+
+        body.light .border-gray-700 {
+            border-color: #d1d5db !important;
+        }
+
+        body.light .glassmorphism {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(209, 213, 219, 0.75);
+        }
     </style>
     <!-- In your layout public.blade.php, add to <head> -->
 
@@ -55,7 +93,7 @@
 
 </head>
 
-<body class="bg-dark-bg text-white">
+<body id="dark-mode" class="dark bg-dark-bg text-white">
     <!-- Navigation -->
     @include('components.public.navbar')
     @include('components.public.animate-progress')

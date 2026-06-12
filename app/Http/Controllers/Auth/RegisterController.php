@@ -65,6 +65,7 @@ class RegisterController extends Controller
         $team->subscription()->create([
             'plan' => 'free',
             'status' => 'active',
+            'members_limit'=> '5'
         ]);
 
         // Login user

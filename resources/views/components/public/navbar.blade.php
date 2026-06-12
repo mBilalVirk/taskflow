@@ -19,15 +19,19 @@
             </div>
 
             <!-- Auth Buttons -->
-            @auth
-                <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4">
+                <button id="theme-toggle-btn" type="button"
+                    class="p-2 rounded-lg border border-white/10 text-gray-300 hover:text-white hover:border-cyan-400 transition"
+                    aria-label="Toggle dark mode">
+                    <i id="theme-toggle-icon" class="fas fa-sun"></i>
+                </button>
+
+                @auth
                     <a href="{{ route('dashboard') }}"
                         class="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-400 to-purple-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/50 transition btn-glow">
                         Dashboard
                     </a>
-                </div>
-            @else
-                <div class="flex items-center gap-4">
+                @else
                     <a href="{{ route('login') }}"
                         class="px-4 py-2 text-gray-300 hover:text-white transition text-sm font-medium">
                         Sign In
@@ -36,8 +40,9 @@
                         class="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-400 to-purple-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/50 transition btn-glow">
                         Get Started Free
                     </a>
-                </div>
-            @endauth
+                @endauth
+            </div>
+
         </div>
     </div>
 </nav>
